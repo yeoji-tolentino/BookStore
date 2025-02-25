@@ -6,11 +6,11 @@ public class Address {
     private String barangay;
     private String city;
 
-    public Address(String city, String barangay, String street, int house_no) {
-        this.city = city;
-        this.barangay = barangay;
-        this.street = street;
+    public Address(int house_no, String street, String barangay, String city) {
         this.house_no = house_no;
+        this.street = street;
+        this.barangay = barangay;
+        this.city = city;
     }
 
     public int getHouse_no() {

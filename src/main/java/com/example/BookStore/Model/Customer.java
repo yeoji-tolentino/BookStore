@@ -4,30 +4,35 @@ import java.time.LocalDateTime;
 
 
 public class Customer extends User {
-    private int customer_id;
+    private Long customer_id;
     private String fname;
     private String lname;
-    private int phone;
+    private String phone;
     private Address address;
     private int age;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
-    public Customer(String fname, String lname, int phone, Address address, int age, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Customer(){
+
+    }
+
+    public Customer(String fname, String lname, String phone, Address address, int age) {
         this.fname = fname;
         this.lname = lname;
         this.phone = phone;
         this.address = address;
         this.age = age;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+
+        this.created_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now();
     }
 
-    public int getCustomer_id() {
+    public Long getCustomer_id() {
         return customer_id;
     }
 
-    public void setCustomer_id(int customer_id) {
+    public void setCustomer_id(Long customer_id) {
         this.customer_id = customer_id;
     }
 
@@ -47,11 +52,11 @@ public class Customer extends User {
         this.lname = lname;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
