@@ -1,20 +1,22 @@
 package com.example.BookStore.Model;
 
+import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@Embeddable
 public class Address {
 
-    @NotNull
+    @NotNull(message="House number required")
     private int house_no;
 
-    @NotBlank
+    @NotBlank(message="Street required")
     private String street;
 
-    @NotBlank
+    @NotBlank(message="Barangay required")
     private String barangay;
 
-    @NotBlank
+    @NotBlank(message="City required")
     private String city;
 
     public Address(int house_no, String street, String barangay, String city) {

@@ -1,9 +1,6 @@
 package com.example.BookStore.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -28,6 +25,7 @@ public class Customer extends User {
     @NotNull(message = "Phone is required")
     private String phone;
 
+    @Embedded
     @Valid
     private Address address;
 
