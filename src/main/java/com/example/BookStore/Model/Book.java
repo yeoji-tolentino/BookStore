@@ -1,16 +1,46 @@
 package com.example.BookStore.Model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+@Entity
+@Table(name="books")
 public class Book {
+
+    @Id
+    @GeneratedValue
     private Long book_id;
+
+    @NotBlank(message = "Book title cannot be blank")
     private String title;
+
+    @NotBlank(message = "Book author cannot be blank")
     private String author;
+
+    @NotBlank(message = "Book description cannot be blank")
+    @Size(max = 700, message = "Description cannot exceed 500 characters")
     private String description;
+
+    @NotNull(message = "Price is required")
+    @Min(value = 0, message = "Price cannot be negative")
     private double price;
+
+    @NotBlank(message = "Book category cannot be blank")
     private String category;
+
+    @NotNull(message = "Stock is required")
+    @Min(value = 0, message = "Stock cannot be negative")
     private int stock;
+
     private int items_sold;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
