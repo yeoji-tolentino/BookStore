@@ -22,12 +22,13 @@ public class BookController {
     public BookController(final BookRepository bookRepo){
         this.bookRepo = bookRepo;
     }
+
     @GetMapping
-    public Iterable<Book> getBooks(@PathVariable Long bookId){
+    public Iterable<Book> getBooks(){
         return this.bookRepo.findAll();
     }
 
-    @GetMapping("/{bookId}")
+    @GetMapping("/view/{bookId}")
     public ResponseEntity<Book> getBook(@PathVariable Long bookId){
         Optional<Book> bookFound = this.bookRepo.findById(bookId.intValue());
         Book book = bookFound.get();
@@ -42,14 +43,14 @@ public class BookController {
                 .body(book);
     }
 
-    @PostMapping
-    public ResponseEntity<Book> createBook(@Valid @PathVariable Book book){
+    @PostMapping("/create")
+    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book){
         Book savedBook = this.bookRepo.save(book);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .header("Location", "api/products" + book.getBook_id())
-                .body(book);
+                .header("Location", "api/products" + savedBook.getBook_id())
+                .body(savedBook);
     }
 
 }

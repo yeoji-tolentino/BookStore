@@ -27,6 +27,8 @@ public class OrderItem {
     @Min(value = 0, message = "Quantity cannot be negative")
     private int qty;
 
+    public OrderItem(){}
+
     public OrderItem(Long order_id, long book_id, long customer_id, int qty) {
         this.order_id = order_id;
         this.book_id = book_id;

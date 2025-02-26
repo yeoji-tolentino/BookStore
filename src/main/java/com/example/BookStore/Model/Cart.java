@@ -30,6 +30,10 @@ public class Cart {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
+    public Cart(){
+
+    }
+
     public Cart(Long book_it, Long customer_it, int qty) {
         this.book_it = book_it;
         this.customer_it = customer_it;

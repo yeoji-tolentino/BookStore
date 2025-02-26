@@ -28,6 +28,8 @@ public class Order {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
+    public Order(){}
+
     public Order(Long customer_it, double total_price) {
         this.customer_id = customer_it;
         this.total_price = total_price;

@@ -19,6 +19,10 @@ public class Address {
     @NotBlank(message="City required")
     private String city;
 
+    public Address(){
+
+    }
+
     public Address(int house_no, String street, String barangay, String city) {
         this.house_no = house_no;
         this.street = street;

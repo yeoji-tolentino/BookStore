@@ -45,6 +45,10 @@ public class Book {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
+    public Book(){
+
+    }
+
     public Book(String title, String author, String description, double price, String category, int stock) {
         this.title = title;
         this.author = author;
