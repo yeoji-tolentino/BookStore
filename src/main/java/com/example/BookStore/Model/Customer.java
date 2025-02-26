@@ -35,11 +35,10 @@ public class Customer extends User {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
-    public Customer(){
+    public Customer(){}
 
-    }
-
-    public Customer(String fname, String lname, String phone, Address address, int age) {
+    public Customer(String fname, String lname, String phone, Address address, int age, String email, String password) {
+        super(email,password);
         this.fname = fname;
         this.lname = lname;
         this.phone = phone;

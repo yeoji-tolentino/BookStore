@@ -13,9 +13,7 @@ public class User {
     @NotBlank(message = "Please put password")
     private String password;
 
-    public User(){
-
-    }
+    public User(){}
 
     public User(String email, String password) {
         this.email = email;
