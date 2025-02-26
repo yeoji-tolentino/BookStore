@@ -1,10 +1,28 @@
 package com.example.BookStore.Model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name="orders")
 public class Order {
+
+    @Id
+    @GeneratedValue
     private Long order_id;
+
+    @NotNull(message = "Cannot customer book id")
     private Long customer_id;
+
+    @NotNull(message = "Total price required")
+    @Min(value = 0, message="Total price cannot be negative")
     private double total_price;
 
     private LocalDateTime created_at;

@@ -1,15 +1,39 @@
 package com.example.BookStore.Model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
-
+@Entity
+@Table(name="customers")
 public class Customer extends User {
+
+    @Id
+    @GeneratedValue
     private Long customer_id;
+
+    @NotBlank(message = "First name cannot be blank")
     private String fname;
+
+    @NotBlank(message = "Last name cannot be blank")
     private String lname;
+
+    @NotNull(message = "Phone is required")
     private String phone;
+
+    @Valid
     private Address address;
+
+    @Min(value= 13, message = "Users aged 13 years and older can create an account.")
     private int age;
+
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 

@@ -1,9 +1,20 @@
 package com.example.BookStore.Model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class Address {
+
+    @NotNull
     private int house_no;
+
+    @NotBlank
     private String street;
+
+    @NotBlank
     private String barangay;
+
+    @NotBlank
     private String city;
 
     public Address(int house_no, String street, String barangay, String city) {
