@@ -3,32 +3,53 @@ package com.example.BookStore.Controller;
 import com.example.BookStore.Model.Address;
 import com.example.BookStore.Model.Book;
 import com.example.BookStore.Model.Customer;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.BookStore.Repository.BookRepository;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/book")
 public class BookController {
+    private final BookRepository bookRepo;
 
+    public BookController(final BookRepository bookRepo){
+        this.bookRepo = bookRepo;
+    }
     @GetMapping
-    public List<Book> hello(){
-        return List.of(new Book(
-                "How to be rich!",
-                "Joey Pogi",
-                "This is a book about finance and cash flow.",
-                999,
-                "Finance",
-                20)
-
-        );
+    public Iterable<Book> getBooks(@PathVariable Long bookId){
+        return this.bookRepo.findAll();
     }
 
-    @GetMapping("/book/{boodId}")
-    public Book getBook(@PathVariable Long bookId){
-//        return new Book();
+    @GetMapping("/{bookId}")
+    public ResponseEntity<Book> getBook(@PathVariable Long bookId){
+        Optional<Book> bookFound = this.bookRepo.findById(bookId.intValue());
+        Book book = bookFound.get();
+
+        if(!bookFound.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .header("Location", "api/products" + book.getBook_id())
+                .body(book);
     }
+
+    @PostMapping
+    public ResponseEntity<Book> createBook(@Valid @PathVariable Book book){
+        Book savedBook = this.bookRepo.save(book);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .header("Location", "api/products" + book.getBook_id())
+                .body(book);
+    }
+
 }
