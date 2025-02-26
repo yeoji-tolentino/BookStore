@@ -23,7 +23,7 @@ public class Customer extends User {
         this.phone = phone;
         this.address = address;
         this.age = age;
-
+        //initilize created and updated to date now when created
         this.created_at = LocalDateTime.now();
         this.updated_at = LocalDateTime.now();
     }

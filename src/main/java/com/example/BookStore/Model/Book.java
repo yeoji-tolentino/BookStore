@@ -22,7 +22,7 @@ public class Book {
         this.price = price;
         this.category = category;
         this.stock = stock;
-
+        //initilize created and updated to date now when created
         this.items_sold = 0;
         this.created_at = LocalDateTime.now();
         this.updated_at = LocalDateTime.now();

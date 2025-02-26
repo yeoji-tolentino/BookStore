@@ -15,7 +15,7 @@ public class Cart {
         this.book_it = book_it;
         this.customer_it = customer_it;
         this.qty = qty;
-
+        //initilize created and updated to date now when created
         this.created_at = LocalDateTime.now();
         this.updated_at = LocalDateTime.now();
     }

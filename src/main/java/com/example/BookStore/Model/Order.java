@@ -13,7 +13,7 @@ public class Order {
     public Order(Long customer_it, double total_price) {
         this.customer_id = customer_it;
         this.total_price = total_price;
-
+        //initilize created and updated to date now when created
         this.created_at = LocalDateTime.now();
         this.updated_at = LocalDateTime.now();
     }

@@ -16,7 +16,7 @@ public class BookStoreApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BookStoreApplication.class, args);
 	}
-	@GetMapping
+	@GetMapping("/api")
 	public List<Customer> hello(){
 			return List.of(new Customer(
 					"Joey",
