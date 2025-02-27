@@ -3,7 +3,7 @@ package com.example.BookStore.Controller;
 import com.example.BookStore.Model.Address;
 import com.example.BookStore.Model.Book;
 import com.example.BookStore.Model.Customer;
-import com.example.BookStore.Repository.BookRepository;
+import com.example.BookStore.Services.BookServices;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,25 +17,26 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/book")
 public class BookController {
-    private final BookRepository bookRepo;
+    private final BookServices bookServices;
 
-    public BookController(final BookRepository bookRepo){
-        this.bookRepo = bookRepo;
+    public BookController(final BookServices bookServices){
+        this.bookServices = bookServices;
     }
 
     @GetMapping
     public Iterable<Book> getBooks(){
-        return this.bookRepo.findAll();
+        return this.bookServices.getAll();
     }
 
     @GetMapping("/view/{bookId}")
-    public ResponseEntity<Book> getBook(@PathVariable Long bookId){
-        Optional<Book> bookFound = this.bookRepo.findById(bookId.intValue());
-        Book book = bookFound.get();
+    public ResponseEntity<Book> viewBook(@PathVariable Long bookId){
+        Optional<Book> bookFound = this.bookServices.get(bookId);
 
-        if(!bookFound.isPresent()){
+        if(bookFound.isEmpty()){
             return ResponseEntity.notFound().build();
         }
+
+        Book book = bookFound.get();
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -45,7 +46,7 @@ public class BookController {
 
     @PostMapping("/create")
     public ResponseEntity<Book> createBook(@Valid @RequestBody Book book){
-        Book savedBook = this.bookRepo.save(book);
+        Book savedBook = this.bookServices.create(book);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

@@ -3,6 +3,7 @@ package com.example.BookStore.Controller;
 import com.example.BookStore.Model.Address;
 import com.example.BookStore.Model.Customer;
 import com.example.BookStore.Repository.CustomerRepository;
+import com.example.BookStore.Services.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +14,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
-    private final CustomerRepository customerRepo;
+    private final CustomerService customerService;
 
-    public CustomerController(final CustomerRepository customerRepo) {
-        this.customerRepo = customerRepo;
+    public CustomerController(final CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<Customer> createBook(@Valid @PathVariable Customer customer){
-        Customer savedCustomer = this.customerRepo.save(customer);
+        Customer savedCustomer = this.customerService.create(customer);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
