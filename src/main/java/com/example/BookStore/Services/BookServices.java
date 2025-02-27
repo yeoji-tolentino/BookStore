@@ -17,8 +17,15 @@ public class BookServices {
         this.bookRepo = bookRepo;
     }
 
-    public Optional<Book> getBook(Long id) {
-
+    public Optional<Book> get(Long id) {
+        return this.bookRepo.findById(id.intValue());
     }
 
+    public Iterable<Book> getAll(){
+        return this.bookRepo.findAll();
+    }
+
+    public  Book create(Book book){
+        return this.bookRepo.save(book);
+    }
 }
