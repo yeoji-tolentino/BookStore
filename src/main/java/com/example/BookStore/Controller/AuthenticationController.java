@@ -1,6 +1,9 @@
-package com.example.BookStore.auth;
+package com.example.BookStore.Controller;
 
 import com.example.BookStore.Services.AuthenticationService;
+import com.example.BookStore.auth.AuthenticationRequest;
+import com.example.BookStore.auth.AuthenticationResponse;
+import com.example.BookStore.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

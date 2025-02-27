@@ -1,5 +1,6 @@
 package com.example.BookStore.Model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
@@ -27,6 +28,7 @@ public class User implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private Role role;
 
     public User(){}
@@ -35,6 +37,14 @@ public class User implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getEmail() {
