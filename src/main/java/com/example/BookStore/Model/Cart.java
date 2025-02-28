@@ -1,9 +1,7 @@
 package com.example.BookStore.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,13 +13,16 @@ public class Cart {
 
     @Id
     @GeneratedValue
-    private Long cart_id;
+    private Long id;
 
-    @NotNull(message = "Cannot find book id")
-    private Long book_it;
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false) // Store book_id as a foreign key
+    private Book book;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     @NotNull(message = "Cannot find customer id")
-    private Long customer_it;
+    private Customer customer;
 
     @NotNull(message = "Quantity is required")
     @Min(value = 0, message = "Quantity cannot be negative")
@@ -34,37 +35,37 @@ public class Cart {
 
     }
 
-    public Cart(Long book_it, Long customer_it, int qty) {
-        this.book_it = book_it;
-        this.customer_it = customer_it;
+    public Cart(Book book, Customer customer, int qty) {
+        this.book = book;
+        this.customer = customer;
         this.qty = qty;
         //initilize created and updated to date now when created
         this.created_at = LocalDateTime.now();
         this.updated_at = LocalDateTime.now();
     }
 
-    public Long getCart_id() {
-        return cart_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setCart_id(Long cart_id) {
-        this.cart_id = cart_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getBook_it() {
-        return book_it;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBook_it(Long book_it) {
-        this.book_it = book_it;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public Long getCustomer_it() {
-        return customer_it;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomer_it(Long customer_it) {
-        this.customer_it = customer_it;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public int getQty() {

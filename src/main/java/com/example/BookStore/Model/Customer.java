@@ -14,7 +14,7 @@ public class Customer extends User {
 
     @Id
     @GeneratedValue
-    private Long customer_id;
+    private Long id;
 
     @NotBlank(message = "First name cannot be blank")
     private String fname;
@@ -49,12 +49,12 @@ public class Customer extends User {
         this.updated_at = LocalDateTime.now();
     }
 
-    public Long getCustomer_id() {
-        return customer_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setCustomer_id(Long customer_id) {
-        this.customer_id = customer_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFname() {

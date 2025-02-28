@@ -4,14 +4,14 @@ import com.example.BookStore.Services.AuthenticationService;
 import com.example.BookStore.auth.AuthenticationRequest;
 import com.example.BookStore.auth.AuthenticationResponse;
 import com.example.BookStore.auth.RegisterRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
@@ -23,8 +23,20 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
+    @PostMapping("/authenticate/form")
+    public String authenticateForm(@ModelAttribute AuthenticationRequest request, HttpSession session) {
+        AuthenticationResponse response = service.authenticate(request);
+        if (response != null) {
+            session.setAttribute("message", "Login successful!");
+            return "redirect:/homepage";
+        } else {
+            session.setAttribute("error", "Invalid email or password!");
+            return "redirect:/login";
+        }
+    }
+
+    @PostMapping("/authenticate/api")
+    public ResponseEntity<AuthenticationResponse> authenticateApi(@ModelAttribute AuthenticationRequest request){
         return ResponseEntity.ok(service.authenticate(request));
     }
 }

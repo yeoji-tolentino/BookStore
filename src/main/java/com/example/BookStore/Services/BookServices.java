@@ -28,4 +28,8 @@ public class BookServices {
     public  Book create(Book book){
         return this.bookRepo.save(book);
     }
+
+    public List<Book> searchBooks(String keyword) {
+        return bookRepo.searchBooks(keyword);
+    }
 }

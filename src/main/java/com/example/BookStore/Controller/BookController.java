@@ -6,6 +6,8 @@ import com.example.BookStore.Model.Customer;
 import com.example.BookStore.Services.BookServices;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,8 @@ import org.springframework.http.HttpHeaders;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/book")
+@Controller
+@RequestMapping("/homepage")
 public class BookController {
     private final BookServices bookServices;
 
@@ -24,8 +26,10 @@ public class BookController {
     }
 
     @GetMapping
-    public Iterable<Book> getBooks(){
-        return this.bookServices.getAll();
+    public String getBooks(Model model) {
+        Iterable<Book> books = bookServices.getAll();
+        model.addAttribute("books", books);
+        return "index"; // This will render book.html
     }
 
     @GetMapping("/view/{bookId}")
@@ -45,7 +49,7 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book){
+    public ResponseEntity<Book> createBook(@Valid @ModelAttribute Book book){
         Book savedBook = this.bookServices.create(book);
 
         return ResponseEntity
@@ -53,5 +57,24 @@ public class BookController {
                 .header("Location", "api/products" + savedBook.getBook_id())
                 .body(savedBook);
     }
+
+    @GetMapping("/search")
+    public String searchBooks(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        List<Book> books;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            books = (List<Book>) bookServices.getAll();
+        } else {
+            books = bookServices.searchBooks(keyword);
+        }
+        model.addAttribute("books", books);
+        return "index";
+    }
+
+    @GetMapping("/api/search")
+    public ResponseEntity<List<Book>> searchAPIBooks(@RequestParam String keyword) {
+        List<Book> books = bookServices.searchBooks(keyword);
+        return ResponseEntity.ok(books);
+    }
+
 
 }

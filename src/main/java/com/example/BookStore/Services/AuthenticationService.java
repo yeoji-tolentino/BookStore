@@ -42,14 +42,12 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request){
-        System.out.println("ASD");
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        System.out.println("Inside");
         var customer = repository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken((UserDetails) customer);
         return AuthenticationResponse.builder().token(jwtToken).build();

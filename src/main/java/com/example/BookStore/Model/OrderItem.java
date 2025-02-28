@@ -1,9 +1,6 @@
 package com.example.BookStore.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,14 +11,19 @@ public class OrderItem {
 
     @Id
     @GeneratedValue
-    private Long order_item_id;
+    private Long id;
 
+    @ManyToOne
     @NotNull(message = "Cannot find order id")
-    private Long order_id;
+    private Order order;
+
+    @ManyToOne
     @NotNull(message = "Cannot find book id")
-    private long book_id;
+    private Book book;
+
+    @ManyToOne
     @NotNull(message = "Cannot find customer id")
-    private long customer_id;
+    private Customer customer;
 
     @NotNull(message = "Quantity is required")
     @Min(value = 0, message = "Quantity cannot be negative")
@@ -29,43 +31,43 @@ public class OrderItem {
 
     public OrderItem(){}
 
-    public OrderItem(Long order_id, long book_id, long customer_id, int qty) {
-        this.order_id = order_id;
-        this.book_id = book_id;
-        this.customer_id = customer_id;
+    public OrderItem(Order order, Book book, Customer customer, int qty) {
+        this.order = order;
+        this.book = book;
+        this.customer = customer;
         this.qty = qty;
     }
 
-    public Long getOrder_item_id() {
-        return order_item_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setOrder_item_id(Long order_item_id) {
-        this.order_item_id = order_item_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getOrder_id() {
-        return order_id;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrder_id(Long order_id) {
-        this.order_id = order_id;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public long getBook_id() {
-        return book_id;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBook_id(long book_id) {
-        this.book_id = book_id;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public long getCustomer_id() {
-        return customer_id;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomer_id(long customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public int getQty() {

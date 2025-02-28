@@ -1,9 +1,6 @@
 package com.example.BookStore.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,10 +13,11 @@ public class Order {
 
     @Id
     @GeneratedValue
-    private Long order_id;
+    private Long id;
 
+    @ManyToOne
     @NotNull(message = "Cannot customer book id")
-    private Long customer_id;
+    private Customer customer;
 
     @NotNull(message = "Total price required")
     @Min(value = 0, message="Total price cannot be negative")
@@ -30,29 +28,29 @@ public class Order {
 
     public Order(){}
 
-    public Order(Long customer_it, double total_price) {
-        this.customer_id = customer_it;
+    public Order(Customer customer_id, double total_price) {
+        this.customer = customer;
         this.total_price = total_price;
         //initilize created and updated to date now when created
         this.created_at = LocalDateTime.now();
         this.updated_at = LocalDateTime.now();
     }
 
-    public Long getOrder_it() {
-        return order_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setOrder_it(Long order_it) {
-        this.order_id = order_it;
+    public void setId(Long id) {
+        this.id = id;
     }
 
 
-    public Long getCustomer_it() {
-        return customer_id;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomer_it(Long customer_it) {
-        this.customer_id = customer_it;
+    public void setCustomer(Customer customer) {
+        this.customer= customer;
     }
 
     public double getTotal_price() {

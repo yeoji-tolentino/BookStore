@@ -7,11 +7,12 @@ import com.example.BookStore.Services.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/customer")
 public class CustomerController {
     private final CustomerService customerService;
@@ -26,7 +27,7 @@ public class CustomerController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .header("Location", "api/products" + savedCustomer.getCustomer_id())
+                .header("Location", "api/products" + savedCustomer.getId())
                 .body(savedCustomer);
     }
 }
