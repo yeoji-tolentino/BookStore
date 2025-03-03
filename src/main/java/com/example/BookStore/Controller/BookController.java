@@ -2,8 +2,10 @@ package com.example.BookStore.Controller;
 
 import com.example.BookStore.Model.Address;
 import com.example.BookStore.Model.Book;
+import com.example.BookStore.Model.Cart;
 import com.example.BookStore.Model.Customer;
 import com.example.BookStore.Services.BookServices;
+import com.example.BookStore.Services.CartServices;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,16 +23,31 @@ import java.util.Optional;
 @RequestMapping("/homepage")
 public class BookController {
     private final BookServices bookServices;
+    private final CartServices cartServices;
 
-    public BookController(final BookServices bookServices){
+    public BookController(final BookServices bookServices, CartServices cartServices){
         this.bookServices = bookServices;
+        this.cartServices = cartServices;
     }
 
     @GetMapping
-    public String getBooks(Model model) {
+    public String getBooks(Model model, Principal principal) {
         Iterable<Book> books = bookServices.getAll();
         model.addAttribute("books", books);
-        return "index"; // This will render book.html
+
+        if (principal != null) {
+            String username = principal.getName();
+            model.addAttribute("username", username);
+            Iterable<Cart> carts = this.cartServices.getAll();
+
+            model.addAttribute("carts", carts);
+
+            System.out.println("User is logged in: " + username);
+            System.out.println("Carts: " + carts);
+        } else {
+            System.out.println("No user is logged in.");
+        }
+        return "index";
     }
 
     @GetMapping("/view/{bookId}")
@@ -43,9 +61,9 @@ public class BookController {
         Book book = bookFound.get();
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .header("Location", "api/products" + book.getBook_id())
-                .body(book);
+            .status(HttpStatus.CREATED)
+            .header("Location", "api/products" + book.getBook_id())
+            .body(book);
     }
 
     @PostMapping("/create")
@@ -59,13 +77,27 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public String searchBooks(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+    public String searchBooks(@RequestParam(value = "keyword", required = false) String keyword, Model model, Principal principal) {
         List<Book> books;
         if (keyword == null || keyword.trim().isEmpty()) {
             books = (List<Book>) bookServices.getAll();
         } else {
             books = bookServices.searchBooks(keyword);
         }
+
+        if (principal != null) {
+            String username = principal.getName();
+            model.addAttribute("username", username);
+            Iterable<Cart> carts = this.cartServices.getAll();
+
+            model.addAttribute("carts", carts);
+
+            System.out.println("User is logged in: " + username);
+            System.out.println("Carts: " + carts);
+        } else {
+            System.out.println("No user is logged in.");
+        }
+
         model.addAttribute("books", books);
         return "index";
     }
